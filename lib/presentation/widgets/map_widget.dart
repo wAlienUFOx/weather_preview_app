@@ -8,6 +8,7 @@ import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_preview_app/presentation/theme/colors.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/weather_bottom_sheet.dart';
+import 'package:weather_preview_app/presentation/widgets/dialogs/logout_dialog.dart';
 import 'package:weather_preview_app/presentation/widgets/dialogs/open_settings_dialog.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -80,6 +81,18 @@ class _MapWidgetState extends State<MapWidget> {
                   bottom: 16 + MediaQuery.of(context).size.height * 0.01, top: 16 + MediaQuery.of(context).padding.top),
               child: Stack(
                 children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: AppFloatingButton(
+                      icon: Icon(Icons.logout, color: ColorsTheme.of(context).accentIcon),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const LogoutDialog(),
+                        );
+                      },
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: AppFloatingButton(

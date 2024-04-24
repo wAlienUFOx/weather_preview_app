@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:weather_preview_app/data/data_sources/remote/weather_api_client.dart';
 import 'package:weather_preview_app/data/repositories/weather_repository_impl.dart';
 import 'package:weather_preview_app/domain/repositories/weather_repository.dart';
+import 'package:weather_preview_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 
 final sl = GetIt.instance;
@@ -27,4 +28,5 @@ Future<void> initializeDependencies() async {
 
   //Blocs
   sl.registerFactory<WeatherBloc>(() => WeatherBloc(sl()));
+  sl.registerFactory<AuthBloc>(() => AuthBloc());
 }
