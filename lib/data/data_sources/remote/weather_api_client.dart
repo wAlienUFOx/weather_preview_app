@@ -38,5 +38,6 @@ abstract class WeatherApiClient {
   Future<WeatherModel> getWeather(
     @Query('lat') double lat,
     @Query('lon') double lon,
+    @Query('units') String units,
   );
 }

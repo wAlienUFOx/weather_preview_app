@@ -31,7 +31,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
   @override
   Future<WeatherModel> getWeather(double lat, double long) async {
     try {
-      return await _weatherApiClient.getWeather(lat, long);
+      return await _weatherApiClient.getWeather(lat, long, 'metric');
     } catch (e) {
       rethrow;
     }

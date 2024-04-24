@@ -94,11 +94,13 @@ class _WeatherApiClient implements WeatherApiClient {
   Future<WeatherModel> getWeather(
     double lat,
     double lon,
+    String units,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'lat': lat,
       r'lon': lon,
+      r'units': units,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
