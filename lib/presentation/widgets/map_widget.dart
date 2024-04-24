@@ -8,7 +8,9 @@ import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_preview_app/presentation/theme/colors.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/weather_bottom_sheet.dart';
+import 'package:weather_preview_app/presentation/widgets/dialogs/open_settings_dialog.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'buttons/app_floating_button.dart';
 import 'indicators/base_circular_progress_indicator.dart';
@@ -23,7 +25,6 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   GlobalKey mapKey = GlobalKey();
   late final YandexMapController mapController;
-  bool isListenLocation = false;
   bool loadingLocation = false;
   List<MapObject> mapObjects = [];
   final offset1 = Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0));
@@ -70,7 +71,7 @@ class _MapWidgetState extends State<MapWidget> {
                 vertical: VerticalAlignment.bottom,
               ),
               onMapLongTap: (point) {
-                context.read<WeatherBloc>().add(WeatherEvent.getWeather(lat: point.latitude, long: point.longitude));
+                addWeatherEvent(lat: point.latitude, long: point.longitude);
               },
             ),
             if (weatherState.isLoadingWeather) const BaseCircularProgressIndicator(),
@@ -104,25 +105,12 @@ class _MapWidgetState extends State<MapWidget> {
                     child: AppFloatingButton(
                       icon: Icon(Icons.location_on, color: ColorsTheme.of(context).accentIcon),
                       onTap: () async {
-                        // setState(() {
-                        //   isListenLocation = !isListenLocation;
-                        //   loadingLocation = true;
-                        // });
-                        // final mediaQuery = MediaQuery.of(context);
-                        // final height = mapKey.currentContext!.size!.height * mediaQuery.devicePixelRatio;
-                        // final width = mapKey.currentContext!.size!.width * mediaQuery.devicePixelRatio;
-                        // if (await locationPermissionGranted) {
-                        //   await mapController.toggleUserLayer(
-                        //     visible: isListenLocation,
-                        //     autoZoomEnabled: false,
-                        //     headingEnabled: false,
-                        //     anchor: UserLocationAnchor(
-                        //       course: Offset(0.5 * width, 0.5 * height),
-                        //       normal: Offset(0.5 * width, 0.5 * height),
-                        //     ),
-                        //   );
-                        //   setState(() => loadingLocation = false);
-                        // }
+                        if (await locationPermissionGranted) {
+                          setState(() => loadingLocation = true);
+                          final position = await Geolocator.getCurrentPosition();
+                          setState(() => loadingLocation = false);
+                          addWeatherEvent(lat: position.latitude, long: position.longitude);
+                        }
                       },
                     ),
                   ),
@@ -166,6 +154,7 @@ class _MapWidgetState extends State<MapWidget> {
                       name: weatherState.name!,
                       onClose: () {
                         setState(() {
+                          mapObjects.clear();
                           showBottomSheet = false;
                         });
                       },
@@ -177,7 +166,7 @@ class _MapWidgetState extends State<MapWidget> {
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.black.withOpacity(0.3),
-                //child: const BaseCircularProgressIndicator(),
+                child: const BaseCircularProgressIndicator(),
               )
           ],
         );
@@ -185,12 +174,23 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
+  void addWeatherEvent({required double lat, required double long}) {
+    context.read<WeatherBloc>().add(WeatherEvent.getWeather(lat: lat, long: long));
+  }
+
   Future<bool> get locationPermissionGranted async {
     if (await Permission.location.isPermanentlyDenied) {
-      await openAppSettings();
+      showDeniedLocationDialog();
       return false;
     }
     return await Permission.location.request().isGranted;
+  }
+
+  showDeniedLocationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const OpenSettingsDialog(),
+    );
   }
 
   /// Метод для генерауии точки на карте
