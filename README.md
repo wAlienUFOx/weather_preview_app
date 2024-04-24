@@ -1,6 +1,6 @@
 # weather_preview_app
 
-Simple app example. Bloc, dio, goRouter, etc.
+Simple app example. Bloc, dio, goRouter, etc. Not a commercial project.
 
 ## Getting Started
 
