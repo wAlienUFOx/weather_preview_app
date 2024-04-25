@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_preview_app/presentation/theme/colors.dart';
+import 'package:weather_preview_app/presentation/widgets/bottom_sheets/error_bottom_sheet.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/weather_bottom_sheet.dart';
 import 'package:weather_preview_app/presentation/widgets/dialogs/logout_dialog.dart';
 import 'package:weather_preview_app/presentation/widgets/dialogs/open_settings_dialog.dart';
@@ -48,6 +49,7 @@ class _MapWidgetState extends State<MapWidget> {
           showBottomSheet = true;
           setState(() {});
         }
+        if (weatherState.isError) showErrorBottomSheet();
       },
       builder: (context, weatherState) {
         return Stack(
@@ -198,6 +200,20 @@ class _MapWidgetState extends State<MapWidget> {
       return false;
     }
     return await Permission.location.request().isGranted;
+  }
+
+  showErrorBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      shape: const Border(),
+      useRootNavigator: true,
+      builder: (context) {
+        return const ErrorBottomSheet();
+      },
+    );
   }
 
   showDeniedLocationDialog() {
