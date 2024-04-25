@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -57,8 +56,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onPanEnd: (DragEndDetails details) {
-              if (details.velocity.pixelsPerSecond.dx < 0 && index < 4) {
+              if (details.velocity.pixelsPerSecond.dx < 0 && index < 2) {
                 switch (index) {
                   case 0:
                     func0();
