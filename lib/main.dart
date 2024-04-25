@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_preview_app/injection_container.dart';
 import 'package:weather_preview_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:weather_preview_app/presentation/blocs/favorites_bloc/favorites_bloc.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
-import 'package:weather_preview_app/presentation/navigation/go_router_configuration.dart';
+import 'package:weather_preview_app/presentation/navigation/app_routes.dart';
+import 'package:weather_preview_app/presentation/screens/auth/auth_screen.dart';
+import 'package:weather_preview_app/presentation/screens/home/home_screen.dart';
+import 'package:weather_preview_app/presentation/screens/welcome/welcome_screen.dart';
 import 'package:weather_preview_app/presentation/theme/custom_theme.dart';
 
 import 'data/data_sources/local/shared_prefs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPrefs.sharedPreferences = await SharedPreferences.getInstance();
+  await SharedPrefs.init();
   await dotenv.load(fileName: '.env');
-  await initializeDependencies();
 
   runApp(const WeatherApp());
 }
@@ -33,25 +33,31 @@ class _WeatherAppState extends State<WeatherApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<WeatherBloc>(create: (context) => sl()),
-        BlocProvider<AuthBloc>(create: (context) => sl()),
-        BlocProvider<FavoritesBloc>(create: (context) => sl()),
+        BlocProvider<WeatherBloc>(create: (context) => InjectionContainer.weatherBloc),
+        BlocProvider<AuthBloc>(create: (context) => InjectionContainer.authBloc),
+        BlocProvider<FavoritesBloc>(create: (context) => InjectionContainer.favoritesBloc),
       ],
-      child: Provider(
-        create: (context) => GoRouterConfiguration(authBloc: BlocProvider.of<AuthBloc>(context)),
-        child: Builder(builder: (context) {
-          return ThemeProvider(
-            child: MaterialApp.router(
-              routerConfig: Provider.of<GoRouterConfiguration>(context).router,
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                useMaterial3: true,
-              ),
+      child: Builder(builder: (context) {
+        return ThemeProvider(
+          child: MaterialApp(
+            routes: {
+              AppRoutes.home: (context) => const HomeScreen(),
+              AppRoutes.auth: (context) => const AuthScreen(),
+              AppRoutes.welcome: (context) => const WelcomeScreen(),
+            },
+            initialRoute: !SharedPrefs.isShownOnboard
+                ? AppRoutes.welcome
+                : SharedPrefs.userNumber != null
+                    ? AppRoutes.home
+                    : AppRoutes.auth,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

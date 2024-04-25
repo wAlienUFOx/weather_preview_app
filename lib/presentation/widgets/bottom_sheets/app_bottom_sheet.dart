@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../theme/colors.dart';
 import '../../theme/texts.dart';
 import '../painters/grabber_widget.dart';
@@ -50,7 +49,7 @@ class AppBottomSheet extends StatelessWidget {
           ),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: context.pop,
+            onTap: Navigator.of(context).pop,
             child: Padding(
               padding: const EdgeInsets.only(left: 13.0, right: 5),
               child: Icon(Icons.clear, color: ColorsTheme.of(context).primaryInvertedIcon),

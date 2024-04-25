@@ -16,6 +16,12 @@ class AuthState with _$AuthState {
         unauthorized: (_) => false,
       );
 
+  bool get isUnAuthorized => map(
+    initial: (_) => false,
+    authorized: (_) => false,
+    unauthorized: (_) => true,
+  );
+
   bool get isError => map(
         initial: (_) => false,
         authorized: (_) => false,

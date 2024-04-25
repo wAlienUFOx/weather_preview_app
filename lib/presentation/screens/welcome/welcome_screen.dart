@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:weather_preview_app/presentation/widgets/buttons/app_text_button.dart';
 
 import '../../../data/data_sources/local/shared_prefs.dart';
@@ -41,7 +40,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             behavior: HitTestBehavior.opaque,
             onTap: () {
               SharedPrefs.isShownOnboard = true;
-              context.read<AuthBloc>().state.isAuthorized ? context.go(AppRoutes.home) : context.go(AppRoutes.auth);
+              context.read<AuthBloc>().state.isAuthorized
+                  ? Navigator.of(context).pushReplacementNamed(AppRoutes.home)
+                  : Navigator.of(context).pushReplacementNamed(AppRoutes.auth);
             },
             child: Padding(
               padding: const EdgeInsets.all(20.0).copyWith(right: 30),
@@ -160,6 +161,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void func2() {
     SharedPrefs.isShownOnboard = true;
-    context.go(AppRoutes.auth);
+    Navigator.of(context).pushReplacementNamed(AppRoutes.auth);
   }
 }

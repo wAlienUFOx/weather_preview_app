@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:weather_preview_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:weather_preview_app/presentation/widgets/buttons/app_text_button.dart';
 import 'package:weather_preview_app/presentation/widgets/text_fields/phone_field.dart';
@@ -34,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, authState) {
-            if (authState.isAuthorized) context.go(AppRoutes.home);
+            if (authState.isAuthorized) Navigator.of(context).pushReplacementNamed(AppRoutes.home);
           },
           builder: (context, authState) {
             return Column(

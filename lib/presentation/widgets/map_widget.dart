@@ -3,10 +3,10 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
+import 'package:weather_preview_app/presentation/navigation/app_routes.dart';
 import 'package:weather_preview_app/presentation/theme/colors.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/error_bottom_sheet.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/weather_bottom_sheet.dart';
@@ -96,7 +96,10 @@ class _MapWidgetState extends State<MapWidget> {
                             title: 'Logout',
                             subtitle: 'Are you sure you want to logout?',
                             buttonTitle: 'Yes',
-                            onTap: () => context.read<AuthBloc>().add(const AuthEvent.deAuthorize()),
+                            onTap: () {
+                              context.read<AuthBloc>().add(const AuthEvent.deAuthorize());
+                              Navigator.of(context).pushReplacementNamed(AppRoutes.auth);
+                            },
                           ),
                         );
                       },
@@ -230,7 +233,7 @@ class _MapWidgetState extends State<MapWidget> {
         subtitle: 'If you want to get your location automatically, you need to enable it in the app settings',
         buttonTitle: 'Open app settings',
         onTap: () async {
-          context.pop();
+          Navigator.of(context).pop();
           await openAppSettings();
         },
       ),

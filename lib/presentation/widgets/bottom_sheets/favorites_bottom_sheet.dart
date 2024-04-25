@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/app_bottom_sheet.dart';
@@ -44,7 +43,7 @@ class FavoritesBottomSheet extends StatelessWidget {
             .map((place) => FavoritesListTile(
                   place: place,
                   onTap: () {
-                    context.pop();
+                    Navigator.of(context).pop();
                     context.read<WeatherBloc>().add(WeatherEvent.getWeather(lat: place.lat, long: place.lon));
                   },
                   onDelete: () {
