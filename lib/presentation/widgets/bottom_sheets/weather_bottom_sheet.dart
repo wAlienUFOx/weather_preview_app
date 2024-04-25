@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_preview_app/data/models/favorites/favorite_model.dart';
 import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/widgets/buttons/app_text_button.dart';
+import 'package:weather_preview_app/presentation/widgets/painters/accent_subtitle.dart';
 import 'package:weather_preview_app/presentation/widgets/tiles/weather_data_tile.dart';
 
 import '../../blocs/favorites_bloc/favorites_bloc.dart';
@@ -34,20 +35,23 @@ class WeatherBottomSheet extends StatelessWidget {
             return ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
               child: Scaffold(
-                backgroundColor: ColorsTheme.of(context).secondarySF,
+                backgroundColor: ColorsTheme.of(context).secondaryPressedSF,
                 appBar: PreferredSize(
                   preferredSize: const Size.fromHeight(double.maxFinite),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 7),
-                          const GrabberWidget(),
-                          const SizedBox(height: 20),
-                          buildTitleBloc(context: context, weather: weather, name: name),
-                        ],
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(color: ColorsTheme.of(context).secondarySF),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 7),
+                            const GrabberWidget(),
+                            const SizedBox(height: 20),
+                            buildTitleBloc(context: context, weather: weather, name: name),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -138,18 +142,7 @@ class WeatherBottomSheet extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 2, color: ColorsTheme.of(context).accentBorder),
-            ),
-          ),
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Text(
-            'Data',
-            style: TextsTheme.of(context).body1(ColorsTheme.of(context).accentText),
-          ),
-        ),
+        const AccentSubtitle(title: 'Data', horizontalPadding: 0),
         const SizedBox(height: 8),
       ],
     );
