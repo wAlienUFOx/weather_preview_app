@@ -37,16 +37,6 @@ class TextsTheme {
     );
   }
 
-  TextStyle heading3reg(Color color) {
-    return TextStyle(
-      color: color,
-      fontFamily: 'Montserrat',
-      fontWeight: FontWeight.w400,
-      fontSize: 17,
-      letterSpacing: 0,
-    );
-  }
-
   TextStyle body1(Color color) {
     return TextStyle(
       color: color,
@@ -83,16 +73,6 @@ class TextsTheme {
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w400,
       fontSize: 12,
-      letterSpacing: 0,
-    );
-  }
-
-  TextStyle caption(Color color) {
-    return TextStyle(
-      color: color,
-      fontFamily: 'Montserrat',
-      fontWeight: FontWeight.w400,
-      fontSize: 8,
       letterSpacing: 0,
     );
   }

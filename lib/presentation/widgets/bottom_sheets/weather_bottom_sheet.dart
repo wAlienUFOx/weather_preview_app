@@ -57,7 +57,7 @@ class WeatherBottomSheet extends StatelessWidget {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      WeatherDataTile(title: 'Local time', data: convertUnixDateToString(weather.dt)),
+                      WeatherDataTile(title: 'Local time', data: convertUnixDateToString(weather.dt, weather.timezone)),
                       WeatherDataTile(title: 'Pressure', data: '${weather.main.pressure} mmHg'),
                       WeatherDataTile(title: 'Wind speed', data: '${weather.wind.speed} m/s'),
                       WeatherDataTile(title: 'Lat', data: '${weather.coord.lat}'),
@@ -184,8 +184,8 @@ class WeatherBottomSheet extends StatelessWidget {
     );
   }
 
-  String convertUnixDateToString(int unixTimestamp) {
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+  String convertUnixDateToString(int unixTimestamp, int timezoneOffset) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch((unixTimestamp + timezoneOffset) * 1000);
     String formattedDate =
         '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
     return formattedDate;

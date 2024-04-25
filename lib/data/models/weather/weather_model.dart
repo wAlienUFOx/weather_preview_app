@@ -11,6 +11,7 @@ class WeatherModel with _$WeatherModel {
     @JsonKey(name: "main") required MainData main,
     @JsonKey(name: "wind") required Wind wind,
     @JsonKey(name: "dt") required int dt,
+    @JsonKey(name: "timezone") required int timezone,
   }) = _WeatherModel;
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) => _$WeatherModelFromJson(json);

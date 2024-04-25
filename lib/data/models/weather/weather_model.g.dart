@@ -15,6 +15,7 @@ _$WeatherModelImpl _$$WeatherModelImplFromJson(Map<String, dynamic> json) =>
       main: MainData.fromJson(json['main'] as Map<String, dynamic>),
       wind: Wind.fromJson(json['wind'] as Map<String, dynamic>),
       dt: json['dt'] as int,
+      timezone: json['timezone'] as int,
     );
 
 Map<String, dynamic> _$$WeatherModelImplToJson(_$WeatherModelImpl instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$WeatherModelImplToJson(_$WeatherModelImpl instance) =>
       'main': instance.main,
       'wind': instance.wind,
       'dt': instance.dt,
+      'timezone': instance.timezone,
     };
 
 _$CoordinatesImpl _$$CoordinatesImplFromJson(Map<String, dynamic> json) =>

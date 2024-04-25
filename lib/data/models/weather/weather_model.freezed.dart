@@ -30,6 +30,8 @@ mixin _$WeatherModel {
   Wind get wind => throw _privateConstructorUsedError;
   @JsonKey(name: "dt")
   int get dt => throw _privateConstructorUsedError;
+  @JsonKey(name: "timezone")
+  int get timezone => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +50,8 @@ abstract class $WeatherModelCopyWith<$Res> {
       @JsonKey(name: "weather") List<Weather> weather,
       @JsonKey(name: "main") MainData main,
       @JsonKey(name: "wind") Wind wind,
-      @JsonKey(name: "dt") int dt});
+      @JsonKey(name: "dt") int dt,
+      @JsonKey(name: "timezone") int timezone});
 
   $CoordinatesCopyWith<$Res> get coord;
   $MainDataCopyWith<$Res> get main;
@@ -73,6 +76,7 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
     Object? main = null,
     Object? wind = null,
     Object? dt = null,
+    Object? timezone = null,
   }) {
     return _then(_value.copyWith(
       coord: null == coord
@@ -94,6 +98,10 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
       dt: null == dt
           ? _value.dt
           : dt // ignore: cast_nullable_to_non_nullable
+              as int,
+      timezone: null == timezone
+          ? _value.timezone
+          : timezone // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -136,7 +144,8 @@ abstract class _$$WeatherModelImplCopyWith<$Res>
       @JsonKey(name: "weather") List<Weather> weather,
       @JsonKey(name: "main") MainData main,
       @JsonKey(name: "wind") Wind wind,
-      @JsonKey(name: "dt") int dt});
+      @JsonKey(name: "dt") int dt,
+      @JsonKey(name: "timezone") int timezone});
 
   @override
   $CoordinatesCopyWith<$Res> get coord;
@@ -162,6 +171,7 @@ class __$$WeatherModelImplCopyWithImpl<$Res>
     Object? main = null,
     Object? wind = null,
     Object? dt = null,
+    Object? timezone = null,
   }) {
     return _then(_$WeatherModelImpl(
       coord: null == coord
@@ -184,6 +194,10 @@ class __$$WeatherModelImplCopyWithImpl<$Res>
           ? _value.dt
           : dt // ignore: cast_nullable_to_non_nullable
               as int,
+      timezone: null == timezone
+          ? _value.timezone
+          : timezone // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -196,7 +210,8 @@ class _$WeatherModelImpl implements _WeatherModel {
       @JsonKey(name: "weather") required final List<Weather> weather,
       @JsonKey(name: "main") required this.main,
       @JsonKey(name: "wind") required this.wind,
-      @JsonKey(name: "dt") required this.dt})
+      @JsonKey(name: "dt") required this.dt,
+      @JsonKey(name: "timezone") required this.timezone})
       : _weather = weather;
 
   factory _$WeatherModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -223,10 +238,13 @@ class _$WeatherModelImpl implements _WeatherModel {
   @override
   @JsonKey(name: "dt")
   final int dt;
+  @override
+  @JsonKey(name: "timezone")
+  final int timezone;
 
   @override
   String toString() {
-    return 'WeatherModel(coord: $coord, weather: $weather, main: $main, wind: $wind, dt: $dt)';
+    return 'WeatherModel(coord: $coord, weather: $weather, main: $main, wind: $wind, dt: $dt, timezone: $timezone)';
   }
 
   @override
@@ -238,13 +256,15 @@ class _$WeatherModelImpl implements _WeatherModel {
             const DeepCollectionEquality().equals(other._weather, _weather) &&
             (identical(other.main, main) || other.main == main) &&
             (identical(other.wind, wind) || other.wind == wind) &&
-            (identical(other.dt, dt) || other.dt == dt));
+            (identical(other.dt, dt) || other.dt == dt) &&
+            (identical(other.timezone, timezone) ||
+                other.timezone == timezone));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, coord,
-      const DeepCollectionEquality().hash(_weather), main, wind, dt);
+      const DeepCollectionEquality().hash(_weather), main, wind, dt, timezone);
 
   @JsonKey(ignore: true)
   @override
@@ -262,11 +282,13 @@ class _$WeatherModelImpl implements _WeatherModel {
 
 abstract class _WeatherModel implements WeatherModel {
   const factory _WeatherModel(
-      {@JsonKey(name: "coord") required final Coordinates coord,
-      @JsonKey(name: "weather") required final List<Weather> weather,
-      @JsonKey(name: "main") required final MainData main,
-      @JsonKey(name: "wind") required final Wind wind,
-      @JsonKey(name: "dt") required final int dt}) = _$WeatherModelImpl;
+          {@JsonKey(name: "coord") required final Coordinates coord,
+          @JsonKey(name: "weather") required final List<Weather> weather,
+          @JsonKey(name: "main") required final MainData main,
+          @JsonKey(name: "wind") required final Wind wind,
+          @JsonKey(name: "dt") required final int dt,
+          @JsonKey(name: "timezone") required final int timezone}) =
+      _$WeatherModelImpl;
 
   factory _WeatherModel.fromJson(Map<String, dynamic> json) =
       _$WeatherModelImpl.fromJson;
@@ -286,6 +308,9 @@ abstract class _WeatherModel implements WeatherModel {
   @override
   @JsonKey(name: "dt")
   int get dt;
+  @override
+  @JsonKey(name: "timezone")
+  int get timezone;
   @override
   @JsonKey(ignore: true)
   _$$WeatherModelImplCopyWith<_$WeatherModelImpl> get copyWith =>
