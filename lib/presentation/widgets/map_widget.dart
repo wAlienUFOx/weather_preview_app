@@ -3,17 +3,18 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_preview_app/presentation/theme/colors.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/error_bottom_sheet.dart';
 import 'package:weather_preview_app/presentation/widgets/bottom_sheets/weather_bottom_sheet.dart';
-import 'package:weather_preview_app/presentation/widgets/dialogs/logout_dialog.dart';
-import 'package:weather_preview_app/presentation/widgets/dialogs/open_settings_dialog.dart';
+import 'package:weather_preview_app/presentation/widgets/dialogs/app_dialog.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../blocs/auth_bloc/auth_bloc.dart';
 import 'bottom_sheets/favorites_bottom_sheet.dart';
 import 'buttons/app_floating_button.dart';
 import 'indicators/base_circular_progress_indicator.dart';
@@ -91,7 +92,12 @@ class _MapWidgetState extends State<MapWidget> {
                       onTap: () {
                         showDialog(
                           context: context,
-                          builder: (context) => const LogoutDialog(),
+                          builder: (context) => AppDialog(
+                            title: 'Logout',
+                            subtitle: 'Are you sure you want to logout?',
+                            buttonTitle: 'Yes',
+                            onTap: () => context.read<AuthBloc>().add(const AuthEvent.deAuthorize()),
+                          ),
                         );
                       },
                     ),
@@ -219,7 +225,15 @@ class _MapWidgetState extends State<MapWidget> {
   showDeniedLocationDialog() {
     showDialog(
       context: context,
-      builder: (context) => const OpenSettingsDialog(),
+      builder: (context) => AppDialog(
+        title: 'You have permanently denied location access',
+        subtitle: 'If you want to get your location automatically, you need to enable it in the app settings',
+        buttonTitle: 'Open app settings',
+        onTap: () async {
+          context.pop();
+          await openAppSettings();
+        },
+      ),
     );
   }
 

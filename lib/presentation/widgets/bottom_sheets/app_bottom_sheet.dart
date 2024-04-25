@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weather_preview_app/presentation/widgets/bottom_sheets/app_bottom_sheet.dart';
 import '../../theme/colors.dart';
 import '../../theme/texts.dart';
+import '../painters/grabber_widget.dart';
 
-class ErrorBottomSheet extends StatefulWidget {
-  const ErrorBottomSheet({super.key});
 
-  @override
-  State<ErrorBottomSheet> createState() => _ErrorBottomSheetState();
-}
+class AppBottomSheet extends StatelessWidget {
+  const AppBottomSheet({super.key, required this.title, required this.children, this.size});
 
-class _ErrorBottomSheetState extends State<ErrorBottomSheet> {
+  final String title;
+  final List<Widget> children;
+  final Size? size;
+
   @override
   Widget build(BuildContext context) {
-    return AppBottomSheet(
-        title: 'Something went wrong',
+    Widget body = Container(
+      height: size != null ? double.infinity : null,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        color: ColorsTheme.of(context).secondarySF,
+      ),
+      margin: size != null ? EdgeInsets.only(top: size!.height * 0.1) : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 7),
+          const GrabberWidget(),
           const SizedBox(height: 20),
-          buildDescription(context),
-          const SizedBox(height: 28),
+          buildTitleBloc(context),
+          ...children,
         ],
-    );
-  }
-
-  Widget buildDescription(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Text(
-        'Please try again later',
-        style: TextsTheme.of(context).body2(ColorsTheme.of(context).primaryInvertedText),
       ),
     );
+    if (size == null) return Wrap(children: [body]);
+    return body;
   }
 
   Widget buildTitleBloc(BuildContext context) {
@@ -42,7 +44,7 @@ class _ErrorBottomSheetState extends State<ErrorBottomSheet> {
         children: [
           Expanded(
             child: Text(
-              'Something went wrong',
+              title,
               style: TextsTheme.of(context).heading2(ColorsTheme.of(context).primaryInvertedText),
             ),
           ),

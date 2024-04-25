@@ -62,10 +62,12 @@ class _SearchFieldState extends State<SearchField> {
                   contentPadding: const EdgeInsets.all(12).copyWith(right: 50),
                 ),
                 onSubmitted: (value) {
-                  // убрать фокус
-                  if (value.isEmpty) {
+                  if (value.trim().isEmpty) {
                     searchFocusNode.unfocus();
+                    searchController.text = '';
+                    return;
                   }
+                  context.read<WeatherBloc>().add(WeatherEvent.getLocations(name: searchController.text));
                 },
               ),
               Positioned(
