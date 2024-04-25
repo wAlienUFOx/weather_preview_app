@@ -13,6 +13,7 @@ import 'package:weather_preview_app/presentation/widgets/dialogs/open_settings_d
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'bottom_sheets/favorites_bottom_sheet.dart';
 import 'buttons/app_floating_button.dart';
 import 'indicators/base_circular_progress_indicator.dart';
 
@@ -98,18 +99,18 @@ class _MapWidgetState extends State<MapWidget> {
                     child: AppFloatingButton(
                       icon: Icon(Icons.favorite, color: ColorsTheme.of(context).accentIcon),
                       onTap: () {
-                        // final size = MediaQuery.sizeOf(context);
-                        // showModalBottomSheet(
-                        //   context: context,
-                        //   isScrollControlled: true,
-                        //   elevation: 0,
-                        //   backgroundColor: Colors.transparent,
-                        //   shape: const Border(),
-                        //   useRootNavigator: true,
-                        //   builder: (context) {
-                        //     return FavoritesBottomSheet(size: size);
-                        //   },
-                        // );
+                        final size = MediaQuery.sizeOf(context);
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          shape: const Border(),
+                          useRootNavigator: true,
+                          builder: (context) {
+                            return FavoritesBottomSheet(size: size);
+                          },
+                        );
                       },
                     ),
                   ),

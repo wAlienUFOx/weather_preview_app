@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum DataType { String, Bool, Int, StringList }
@@ -69,9 +71,20 @@ class SharedPrefs {
       type: DataType.String,
     );
   }
+
+  /// избранные локации
+  static Map<String, dynamic> get favorites =>
+      json.decode(sharedPreferences.getString(SharedPrefsNames.favorites) ?? '{}');
+
+  static set favorites(Map<String, dynamic> value) => setData(
+    title: SharedPrefsNames.favorites,
+    data: json.encode(value),
+    type: DataType.String,
+  );
 }
 
 class SharedPrefsNames {
   static String isShownOnboard = 'isShownOnboard';
   static String userNumber = 'userNumber';
+  static String favorites = 'favorites';
 }

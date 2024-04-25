@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_preview_app/injection_container.dart';
 import 'package:weather_preview_app/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'package:weather_preview_app/presentation/blocs/favorites_bloc/favorites_bloc.dart';
 import 'package:weather_preview_app/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_preview_app/presentation/navigation/go_router_configuration.dart';
 import 'package:weather_preview_app/presentation/theme/custom_theme.dart';
@@ -34,6 +35,7 @@ class _WeatherAppState extends State<WeatherApp> {
       providers: [
         BlocProvider<WeatherBloc>(create: (context) => sl()),
         BlocProvider<AuthBloc>(create: (context) => sl()),
+        BlocProvider<FavoritesBloc>(create: (context) => sl()),
       ],
       child: Provider(
         create: (context) => GoRouterConfiguration(authBloc: BlocProvider.of<AuthBloc>(context)),

@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_preview_app/data/models/favorites/favorite_model.dart';
 import 'package:weather_preview_app/data/models/weather/weather_model.dart';
 import 'package:weather_preview_app/presentation/widgets/buttons/app_text_button.dart';
 import 'package:weather_preview_app/presentation/widgets/tiles/weather_data_tile.dart';
 
+import '../../blocs/favorites_bloc/favorites_bloc.dart';
 import '../../theme/colors.dart';
 import '../../theme/texts.dart';
 import '../painters/grabber_widget.dart';
@@ -158,27 +160,28 @@ class WeatherBottomSheet extends StatelessWidget {
     required WeatherModel weather,
     required String name,
   }) {
-    //return BlocBuilder<FavoritesBloc, FavoritesState>(
-    //builder: (context, favoritesState) {
-    bool inFavorites = true; //favoritesState.favoritesRoutes!.contains(routeId);
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 12, 24, 24),
-      child: AppTextButton(
-        title: inFavorites ? 'Remove' : 'Add',
-        icon: Icon(Icons.favorite,
-            color: inFavorites ? ColorsTheme.of(context).accentIcon : ColorsTheme.of(context).secondarySF),
-        backgroundColor: ColorsTheme.of(context).tetriarySF,
-        textStyle: TextsTheme.of(context).body2(ColorsTheme.of(context).primaryText),
-        borderRadius: BorderRadius.circular(12),
-        onPressed: () {
-          //inFavorites
-          //? BlocProvider.of<FavoritesBloc>(context).add(FavoritesEvent.remove(routeId: routeId))
-          //: BlocProvider.of<FavoritesBloc>(context).add(FavoritesEvent.add(routeId: routeId));
-        },
-      ),
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
+      builder: (context, favoritesState) {
+        bool inFavorites = favoritesState.favoritesPlaces!
+            .contains(FavoriteModel(name: name, lat: weather.coord.lat, lon: weather.coord.lon));
+        return Container(
+          padding: const EdgeInsets.fromLTRB(16, 12, 24, 24),
+          child: AppTextButton(
+            title: inFavorites ? 'Remove' : 'Add',
+            icon: Icon(Icons.favorite,
+                color: inFavorites ? ColorsTheme.of(context).accentIcon : ColorsTheme.of(context).secondarySF),
+            backgroundColor: ColorsTheme.of(context).tetriarySF,
+            textStyle: TextsTheme.of(context).body2(ColorsTheme.of(context).primaryText),
+            borderRadius: BorderRadius.circular(12),
+            onPressed: () {
+              inFavorites
+                  ? context.read<FavoritesBloc>().add(FavoritesEvent.remove(name: name, coordinates: weather.coord))
+                  : context.read<FavoritesBloc>().add(FavoritesEvent.add(name: name, coordinates: weather.coord));
+            },
+          ),
+        );
+      },
     );
-    //},
-    //);
   }
 
   String convertUnixDateToString(int unixTimestamp) {
