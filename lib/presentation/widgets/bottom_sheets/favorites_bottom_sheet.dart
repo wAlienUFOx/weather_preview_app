@@ -55,6 +55,7 @@ class _FavoritesBottomSheetState extends State<FavoritesBottomSheet> {
           const SizedBox(height: 8),
           Expanded(
             child: Container(
+              width: double.infinity,
               color: ColorsTheme.of(context).secondaryPressedSF,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: SingleChildScrollView(
