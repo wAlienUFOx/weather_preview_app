@@ -10,8 +10,8 @@ class LocationModel with _$LocationModel {
     @JsonKey(name: "local_names") required Map<String, String>? localNames,
     @JsonKey(name: "lat") required double lat,
     @JsonKey(name: "lon") required double lon,
-    @JsonKey(name: "country") required String country,
-    @JsonKey(name: "state") required String state,
+    @JsonKey(name: "country") required String? country,
+    @JsonKey(name: "state") required String? state,
   }) = _LocationModel;
 
   factory LocationModel.fromJson(Map<String, dynamic> json) => _$LocationModelFromJson(json);

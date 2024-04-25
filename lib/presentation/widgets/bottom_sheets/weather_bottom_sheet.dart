@@ -185,7 +185,8 @@ class WeatherBottomSheet extends StatelessWidget {
   }
 
   String convertUnixDateToString(int unixTimestamp, int timezoneOffset) {
-    DateTime date = DateTime.fromMillisecondsSinceEpoch((unixTimestamp + timezoneOffset) * 1000);
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000, isUtc: true);
+    date = date.add(Duration(seconds: timezoneOffset));
     String formattedDate =
         '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
     return formattedDate;

@@ -14,8 +14,8 @@ _$LocationModelImpl _$$LocationModelImplFromJson(Map<String, dynamic> json) =>
       ),
       lat: (json['lat'] as num).toDouble(),
       lon: (json['lon'] as num).toDouble(),
-      country: json['country'] as String,
-      state: json['state'] as String,
+      country: json['country'] as String?,
+      state: json['state'] as String?,
     );
 
 Map<String, dynamic> _$$LocationModelImplToJson(_$LocationModelImpl instance) =>

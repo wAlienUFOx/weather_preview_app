@@ -29,9 +29,9 @@ mixin _$LocationModel {
   @JsonKey(name: "lon")
   double get lon => throw _privateConstructorUsedError;
   @JsonKey(name: "country")
-  String get country => throw _privateConstructorUsedError;
+  String? get country => throw _privateConstructorUsedError;
   @JsonKey(name: "state")
-  String get state => throw _privateConstructorUsedError;
+  String? get state => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,8 +50,8 @@ abstract class $LocationModelCopyWith<$Res> {
       @JsonKey(name: "local_names") Map<String, String>? localNames,
       @JsonKey(name: "lat") double lat,
       @JsonKey(name: "lon") double lon,
-      @JsonKey(name: "country") String country,
-      @JsonKey(name: "state") String state});
+      @JsonKey(name: "country") String? country,
+      @JsonKey(name: "state") String? state});
 }
 
 /// @nodoc
@@ -71,8 +71,8 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
     Object? localNames = freezed,
     Object? lat = null,
     Object? lon = null,
-    Object? country = null,
-    Object? state = null,
+    Object? country = freezed,
+    Object? state = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -91,14 +91,14 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
           ? _value.lon
           : lon // ignore: cast_nullable_to_non_nullable
               as double,
-      country: null == country
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
+              as String?,
+      state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -116,8 +116,8 @@ abstract class _$$LocationModelImplCopyWith<$Res>
       @JsonKey(name: "local_names") Map<String, String>? localNames,
       @JsonKey(name: "lat") double lat,
       @JsonKey(name: "lon") double lon,
-      @JsonKey(name: "country") String country,
-      @JsonKey(name: "state") String state});
+      @JsonKey(name: "country") String? country,
+      @JsonKey(name: "state") String? state});
 }
 
 /// @nodoc
@@ -135,8 +135,8 @@ class __$$LocationModelImplCopyWithImpl<$Res>
     Object? localNames = freezed,
     Object? lat = null,
     Object? lon = null,
-    Object? country = null,
-    Object? state = null,
+    Object? country = freezed,
+    Object? state = freezed,
   }) {
     return _then(_$LocationModelImpl(
       name: null == name
@@ -155,14 +155,14 @@ class __$$LocationModelImplCopyWithImpl<$Res>
           ? _value.lon
           : lon // ignore: cast_nullable_to_non_nullable
               as double,
-      country: null == country
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
+              as String?,
+      state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -205,10 +205,10 @@ class _$LocationModelImpl implements _LocationModel {
   final double lon;
   @override
   @JsonKey(name: "country")
-  final String country;
+  final String? country;
   @override
   @JsonKey(name: "state")
-  final String state;
+  final String? state;
 
   @override
   String toString() {
@@ -261,8 +261,8 @@ abstract class _LocationModel implements LocationModel {
           required final Map<String, String>? localNames,
           @JsonKey(name: "lat") required final double lat,
           @JsonKey(name: "lon") required final double lon,
-          @JsonKey(name: "country") required final String country,
-          @JsonKey(name: "state") required final String state}) =
+          @JsonKey(name: "country") required final String? country,
+          @JsonKey(name: "state") required final String? state}) =
       _$LocationModelImpl;
 
   factory _LocationModel.fromJson(Map<String, dynamic> json) =
@@ -282,10 +282,10 @@ abstract class _LocationModel implements LocationModel {
   double get lon;
   @override
   @JsonKey(name: "country")
-  String get country;
+  String? get country;
   @override
   @JsonKey(name: "state")
-  String get state;
+  String? get state;
   @override
   @JsonKey(ignore: true)
   _$$LocationModelImplCopyWith<_$LocationModelImpl> get copyWith =>
